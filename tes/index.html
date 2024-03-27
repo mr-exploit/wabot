@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="canvas"></canvas>
+
+    </div>
+
+    <script src="index.js" type="module"></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/dugin-whatsapp-web@1.0.3/index.min.js
+    "></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <script>
+        var canvas = document.getElementById('canvas');
+
+        QRCode.toCanvas(canvas, 'sample text', function (error) {
+            if (error) {
+                console.error(error);
+            } else {
+                console.log('Success!');
+            }
+        });
+
+        const client = new Client();
+
+        client.on('qr', (QRCode) => {
+            // Generate and scan this code with your phone
+            console.log('QR RECEIVED', QRCode.toCanvas(canvas, 'sample text', function (error) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    console.log('Success!');
+                }
+            }));
+        });
+
+        client.on('ready', () => {
+            console.log('Client is ready!');
+        });
+
+        client.on('message', msg => {
+            if (msg.body == '!ping') {
+                msg.reply('pong');
+            }
+        });
+
+        client.initialize();
+    </script>
+</body>
+
+</html>
